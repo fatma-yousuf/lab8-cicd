@@ -1,3 +1,5 @@
+
+cat > app.js << 'EOF'
 const express = require('express');
 const { MongoClient } = require('mongodb');
 
@@ -24,7 +26,9 @@ async function connectDB() {
       { id: 3, name: 'Read a book', status: 'pending' },
       { id: 4, name: 'Write report', status: 'done' },
       { id: 5, name: 'Clean house', status: 'pending' },
-      { id: 6, name: 'Cook dinner', status: 'done' }
+      { id: 6, name: 'Cook dinner', status: 'done' },
+      { id: 7, name: 'Tea', status: 'pending' },
+      { id: 7, name: 'Tea', status: 'pending' }
     ]);
     console.log('Database seeded');
   }
@@ -47,3 +51,4 @@ connectDB().then(() => {
   console.error('Failed to connect to MongoDB:', err);
   process.exit(1);
 });
+EOF
