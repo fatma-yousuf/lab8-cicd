@@ -6,12 +6,14 @@ app.use(express.json());
 
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017';
 const DB_NAME = 'tasksdb';
+
 let db;
 
-async function connect() {
+async function connectDB() {
   const client = new MongoClient(MONGO_URL);
   await client.connect();
   db = client.db(DB_NAME);
+  console.log('Connected to MongoDB');
 
   const count = await db.collection('tasks').countDocuments();
   if (count === 0) {
@@ -19,8 +21,8 @@ async function connect() {
       { id: 1, name: 'Buy groceries', status: 'pending' },
       { id: 2, name: 'Walk the dog', status: 'done' },
       { id: 3, name: 'Read a book', status: 'pending' },
-      { id: 4, name: 'Write report', status: 'in-progress' },
-      { id: 5, name: 'Call mom', status: 'pending' },
+      { id: 4, name: 'Write report', status: 'done' },
+      { id: 5, name: 'Clean house', status: 'pending' },
       { id: 6, name: 'Cook dinner', status: 'done' },
       { id: 7, name: 'Tea', status: 'pending' }
     ]);
@@ -39,8 +41,8 @@ app.post('/tasks', async (req, res) => {
   res.status(201).json(task);
 });
 
-connect().then(() => {
-  app.listen(3000, () => console.log('Server running on port 3000'));
+connectDB().then(() => {
+  app.listen(3000, () => console.log('App running on port 3000'));
 }).catch(err => {
   console.error('Failed to connect to MongoDB:', err);
   process.exit(1);
